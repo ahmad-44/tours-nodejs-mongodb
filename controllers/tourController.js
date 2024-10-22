@@ -44,6 +44,13 @@ exports.getAllTours = async (req, res) => {
       query = query.sort('-createdAt');
     }
 
+    // Field Limiting
+    if (req.query.fields) {
+      query = query.select(req.query.fields);
+    } else {
+      query = query.select('-__v'); // __v is a field we want to remove
+    }
+
     // EXECUTE QUERY
     const tours = await query;
 
